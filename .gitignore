@@ -1,2 +1,6 @@
 #ignore virtual environment directory/files
 **/arrsenv
+
+#ignore compiled python files & related directories
+**/pycache
+*.pyc
