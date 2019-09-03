@@ -2,7 +2,8 @@
 A lightweight implementation of the notorious ARRS.
 
 Stack Components:
-+ Django
-+ Gunicorn
-+ Nginx
-+ Raspian Buster Lite
++ Django: Web Application Framework
++ Gunicorn: WSGI
++ Nginx: Reverse Proxy Support
++ PostgreSQL: Persistance
+
