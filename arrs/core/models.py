@@ -1,5 +1,11 @@
 from django.db import models
 
+#Model representing a tournament
+#NOTE: has a many-to-one relationship with Round, Many-to-many with Comp
+class Tournament(models.Model):
+    ## TODO
+    pass
+
 #Model representing a single competitor/competitor-partnership
 #NOTE: has none-to-many relationship with Round model
 class Comp(models.Model):
@@ -28,9 +34,3 @@ class Round(models.Model):
     ]
     type = models.CharField(null=False, max_length=3, choices=ROUND_TYPES, default="PRE")
     #result = models.BooleanField(default=True) ##TODO: use true to indicate AFF win, false for NEG win?
-
-#Model representing a tournament
-#NOTE: has a many-to-one relationship with Round, Many-to-many with Comp
-class Tournament(models.Model):
-    ## TODO
-    pass
