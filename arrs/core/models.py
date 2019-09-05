@@ -9,8 +9,8 @@ class Tournament(models.Model):
 #Model representing a single competitor/competitor-partnership
 #NOTE: has none-to-many relationship with Round model
 class Comp(models.Model):
-    name = models.CharField(max_length="50", unique=True, null=False)
-    event = models.CharField(max_length="100", null=False)
+    name = models.CharField(max_length=50, unique=True, null=False)
+    event = models.CharField(max_length=100, null=False)
     varsity = models.BooleanField(default=False)
 
 #Model representing a single debate round
@@ -18,13 +18,13 @@ class Comp(models.Model):
 #TODO: create subclasses for speech/debate rounds (PHASE II)
 class Round(models.Model):
 
-    tournament = models.ForeignKey(Tournament) #TODO: Need some sort of primary key in addition to this?
+    tournament = models.ForeignKey(Tournament, null=True, on_delete=models.SET_NULL) #TODO: Need some sort of primary key in addition to this?
     #aff = models.ForeignKey(Comp)
     #neg = models.ForeignKey(Comp) #Not
 
     #Round Type Information
     ROUND_TYPES = [
-        ("PRE", "Preliminary")
+        ("PRE", "Preliminary"),
         ("TOC", "Triple Octafinal"),
         ("DOC", "Double Octafinal"),
         ("OCT", "Octafinal"),
