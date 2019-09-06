@@ -16,22 +16,21 @@ class Tournament(models.Model):
 #NOTE: has none-to-many relationship with Round model
 class Comp(models.Model):
 
-    name = models.CharField(max_length=50, unique=True, null=False)
-    event = models.CharField(max_length=100, null=False)
+    name = models.CharField(max_length=50, unique=True)
+    event = models.CharField(max_length=100)
     varsity = models.BooleanField(default=False)
 
     def __str__(self):
-        level = ("Novice", "Varsity")[self.varsity]
-        return self.name + " " + level + "-" + self.event
+        return self.name
 
 #Model representing a single debate round
 #NOTE: has a many-to-one relationship with Comp model
 #TODO: create subclasses for speech/debate rounds (PHASE II)
 class Round(models.Model):
 
-    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE) #TODO: Need some sort of primary key in addition to this?
-    #aff = models.ForeignKey(Comp)
-    #neg = models.ForeignKey(Comp) #Not
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True)
+    aff = models.ManyToManyField(Comp, related_name="RND_AFF")
+    neg = models.ManyToManyField(Comp, related_name="RND_NEG")
 
     #Round Type Information
     ROUND_TYPES = [
@@ -47,4 +46,4 @@ class Round(models.Model):
     #result = models.BooleanField(default=True) ##TODO: use true to indicate AFF win, false for NEG win?
 
     def __str__(self):
-        return str(self.tournament) + " " + self.type
+        return str(self.tournament) + " " + self.type + " " + str(self.aff) + " " + str(self.neg)
