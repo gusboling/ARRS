@@ -21,7 +21,8 @@ class Comp(models.Model):
     varsity = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        vString = ("N", "V")[self.varsity]
+        return self.name + " (" + vString + " " + self.event + ")"
 
 #Model representing a single debate round
 #NOTE: has a many-to-one relationship with Comp model
@@ -45,5 +46,11 @@ class Round(models.Model):
     type = models.CharField(null=False, max_length=3, choices=ROUND_TYPES, default="PRE")
     #result = models.BooleanField(default=True) ##TODO: use true to indicate AFF win, false for NEG win?
 
+    def getAff(self):
+        return self.aff.all()[0].name
+
+    def getNeg(self):
+        return self.neg.all()[0].name
+
     def __str__(self):
-        return str(self.tournament) + " " + self.type + " " + str(self.aff) + " " + str(self.neg)
+        return str(self.tournament) + " " + self.getAff() + " v. " + self.getNeg() + " (" + self.type + ")"
