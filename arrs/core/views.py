@@ -17,17 +17,19 @@ def dashboard(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
-def seeRounds(request):
-    pass
-
-def seeReports(request):
-    pass
+def viewRounds(request):
+    template = loader.get_template("records.html")
+    context = {}
+    return HttpResponse(template.render(context, request))
 
 def addRound(request):
     template = loader.get_template("addRound.html")
     #TODO populate this with relevant information; see addRound.html TODOs
     context = {}
     return HttpResponse(template.render(context, request))
+
+def viewReports(request):
+    pass
 
 def addReport(request):
     pass
