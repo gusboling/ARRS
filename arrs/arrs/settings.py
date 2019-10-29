@@ -33,7 +33,8 @@ SECRET_KEY = get_env_variable('H_SECRETKEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-        '192.168.1.168'
+        '192.168.1.168',
+        '192.168.1.6'
 ]
 
 
@@ -74,6 +75,12 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
+    },
+    {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [
+            '/home/html/jinja2',
+        ],
     },
 ]
 
