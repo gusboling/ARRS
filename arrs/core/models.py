@@ -26,22 +26,29 @@ class Comp(models.Model):
 
     #Returns (name?) of all rounds associated with comp
     def getRounds(self):
-        return self.round_set.all()
+        comprounds = {"affirmative": self.affcomp.all(), "negative": self.negcomp.all()}
+        return comprounds
+        
 
     #Iterates over self.getRounds() and returns the number of rounds where comp won.
     def getWinCount(self):
         win_count = 0
-        for rnd in self.getRounds():
+        rnds = self.getRounds()
+        for rnd in rnds["affirmative"]: 
+            if rnd.getWinner() == self.getName(): win_count += 1
+        for rnd in rnds["negative"]: 
             if rnd.getWinner() == self.getName(): win_count += 1
         return win_count
 
     #Returns value of len(self.getRounds()) minus self.getWinCount()
     def getLossCount(self):
-        return len(self.getRounds()) - self.getWinCount()
+        rnds = self.getRounds()
+        totalRounds = len(rnds["affirmative"]) + len(rnds["negative"])
+        return totalRounds - self.getWinCount()
 
     def __str__(self):
         vString = ("N", "V")[self.varsity]
-        return self.name + " (" + vString + " " + self.event + ") " + str(self.getWinCount()) + "-" str(self.getLossCount()) 
+        return self.name + " (" + vString + " " + self.event + ") " + str(self.getWinCount()) + "-" + str(self.getLossCount()) 
 
 #Model representing a single debate round
 #NOTE: has a many-to-one relationship with Comp model
@@ -49,8 +56,8 @@ class Comp(models.Model):
 class Round(models.Model):
 
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True)
-    aff = models.ManyToManyField(Comp, related_name="RND_AFF")
-    neg = models.ManyToManyField(Comp, related_name="RND_NEG")
+    aff = models.ManyToManyField(Comp, related_name="affcomp")
+    neg = models.ManyToManyField(Comp, related_name="negcomp")
 
     #Round Type Information
     ROUND_TYPES = [
@@ -74,6 +81,7 @@ class Round(models.Model):
         return self.neg.all()[0].name
 
     def getWinner(self):
+        #return []
         if self.result == "AFF":
             return self.getAff()
         else:
