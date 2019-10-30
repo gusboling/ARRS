@@ -20,6 +20,22 @@ class Comp(models.Model):
     event = models.CharField(max_length=100)
     varsity = models.BooleanField(default=False)
 
+    #Returns name of the competitor
+    def getName(self):
+        return self.name
+
+    #Returns (name?) of all rounds associated with comp
+    def getRounds(self):
+        pass
+
+    #Iterates over self.getRounds() and returns the number of rounds where comp won.
+    def getWinCount(self):
+        pass
+
+    #Returns value of len(self.getRounds()) minus self.getWinCount()
+    def getLossCount(self):
+        pass
+
     def __str__(self):
         vString = ("N", "V")[self.varsity]
         return self.name + " (" + vString + " " + self.event + ")"
@@ -43,9 +59,9 @@ class Round(models.Model):
         ("SEM", "Semifinal"),
         ("FIN", "Final")
     ]
+    RESULTS = [("AFF", "Affirmative Win"), ("NEG", "Negative Win")]
     type = models.CharField(null=False, max_length=3, choices=ROUND_TYPES, default="PRE")
-    #result = models.BooleanField(default=True) ##TODO: use true to indicate AFF win, false for NEG win
-    result = models.StringField(null=False, default="AFF")
+    result = models.CharField(null=False, max_length=3, choices=RESULTS, default="AFF")
 
     #GET METHODS
     def getAff(self):
