@@ -44,13 +44,21 @@ class Round(models.Model):
         ("FIN", "Final")
     ]
     type = models.CharField(null=False, max_length=3, choices=ROUND_TYPES, default="PRE")
-    #result = models.BooleanField(default=True) ##TODO: use true to indicate AFF win, false for NEG win?
+    #result = models.BooleanField(default=True) ##TODO: use true to indicate AFF win, false for NEG win
+    result = models.StringField(null=False, default="AFF")
 
+    #GET METHODS
     def getAff(self):
         return self.aff.all()[0].name
 
     def getNeg(self):
         return self.neg.all()[0].name
+
+    def getWinner(self):
+        if self.result == "AFF":
+            return self.getAff()
+        else:
+            return self.getNeg()
 
     def __str__(self):
         return str(self.tournament) + " " + self.getAff() + " v. " + self.getNeg() + " (" + self.type + ")"

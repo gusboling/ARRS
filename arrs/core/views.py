@@ -28,6 +28,8 @@ def addRound(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
+
+#STAGE II
 def viewReports(request):
     pass
 
