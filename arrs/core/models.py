@@ -26,19 +26,22 @@ class Comp(models.Model):
 
     #Returns (name?) of all rounds associated with comp
     def getRounds(self):
-        pass
+        return self.round_set.all()
 
     #Iterates over self.getRounds() and returns the number of rounds where comp won.
     def getWinCount(self):
-        pass
+        win_count = 0
+        for rnd in self.getRounds():
+            if rnd.getWinner() == self.getName(): win_count += 1
+        return win_count
 
     #Returns value of len(self.getRounds()) minus self.getWinCount()
     def getLossCount(self):
-        pass
+        return len(self.getRounds()) - self.getWinCount()
 
     def __str__(self):
         vString = ("N", "V")[self.varsity]
-        return self.name + " (" + vString + " " + self.event + ")"
+        return self.name + " (" + vString + " " + self.event + ") " + str(self.getWinCount()) + "-" str(self.getLossCount()) 
 
 #Model representing a single debate round
 #NOTE: has a many-to-one relationship with Comp model
