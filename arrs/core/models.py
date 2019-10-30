@@ -19,6 +19,7 @@ class Comp(models.Model):
     name = models.CharField(max_length=50, unique=True)
     event = models.CharField(max_length=100)
     varsity = models.BooleanField(default=False)
+    onteam = models.BooleanField(default=False)
 
     #Returns name of the competitor
     def getName(self):
