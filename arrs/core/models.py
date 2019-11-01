@@ -41,9 +41,9 @@ class Comp(models.Model):
     def getWinCount(self):
         win_count = 0
         rnds = self.getRounds()
-        for rnd in rnds["affirmative"]:
+        for rnd in rnds["affrounds"]:
             if rnd.getWinner() == self.getName(): win_count += 1
-        for rnd in rnds["negative"]:
+        for rnd in rnds["negrounds"]:
             if rnd.getWinner() == self.getName(): win_count += 1
         return win_count
 
@@ -56,7 +56,7 @@ class Comp(models.Model):
 
     #TOSTRING METHOD
     def __str__(self):
-        return self.getName() + " (" + self.getLevel() + " " + self.getEvent() + ")
+        return self.getName() + " (" + self.getLevel() + " " + self.getEvent() + ")"
 
 
 #Model representing a single debate round
@@ -99,10 +99,17 @@ class Round(models.Model):
     def __str__(self):
         return str(self.tournament) + " " + self.getAff() + " v. " + self.getNeg() + " (" + self.type + ")"
 
-def getVarsityPolicyDozen():
-    vpol_comps = Comp.objects.filter(event="Policy").filter(varsity=True)
-    vpol_dict = {}
+def getEventTopComps(tevent, cutoff):
+    vpol_comps = Comp.objects.filter(event=tevent).filter(varsity=True).filter(onteam=True)
+    sorted_comps = []
+    dozen_names = []
+    
     for vc in vpol_comps:
-        vpol_dict[vc.getName()] = vc.getWinCount()
-    ranked_comps = sorted(vpol_dict.items(), key=operator.itemgetter(1))
-    print(ranked_comps)
+        sorted_comps.append((vc.getName(), vc.getWinCount()))
+
+    sorted_comps = sorted(sorted_comps, key=lambda tup: tup[1])
+    sorted_comps.reverse()
+    for sc in sorted_comps:
+        dozen_names.append(sc[0])
+    
+    return dozen_names[0:cutoff]
