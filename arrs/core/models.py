@@ -18,9 +18,18 @@ class Tournament(models.Model):
 class Comp(models.Model):
 
     name = models.CharField(max_length=50, unique=True)
-    event = models.CharField(max_length=100)
     varsity = models.BooleanField(default=False)
     onteam = models.BooleanField(default=False)
+
+    EVENT_CHOICES = [
+    ("VPO", "Varsity Policy"),
+    ("VLD", "Varsity Lincoln Douglas"),
+    ("VPF", "Varsity Public Forum"),
+    ("NPO", "Novice Policy"),
+    ("NLD", "Novice Lincoln Douglas"),
+    ("NPF", "Novice Public Forum")
+    ]
+    event = models.CharField(null=False, max_length=100, choices=EVENT_CHOICES, default="VPO")
 
     #ACCESOR METHODS
     def getName(self):
@@ -99,17 +108,16 @@ class Round(models.Model):
     def __str__(self):
         return str(self.tournament) + " " + self.getAff() + " v. " + self.getNeg() + " (" + self.type + ")"
 
+
 def getEventTopComps(tevent, cutoff):
     vpol_comps = Comp.objects.filter(event=tevent).filter(varsity=True).filter(onteam=True)
     sorted_comps = []
-    dozen_names = []
-    
+    names = []
     for vc in vpol_comps:
         sorted_comps.append((vc.getName(), vc.getWinCount()))
-
     sorted_comps = sorted(sorted_comps, key=lambda tup: tup[1])
     sorted_comps.reverse()
     for sc in sorted_comps:
-        dozen_names.append(sc[0])
-    
-    return dozen_names[0:cutoff]
+        names.append(sc[0])
+
+    return names[0:cutoff]

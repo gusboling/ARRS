@@ -129,18 +129,9 @@
               <ol style="margin-top:10px">
                 <b>
                 <!-- TODO Generate this list dynamically from Models -->
-                <li>Richard & Mortimer</li>
-                <li>Sam & Eleanor</li>
-                <li>Gus & Oona</li>
-                <li>Dan & Anna</li>
-                <li>Richard & Mortimer</li>
-                <li>Sam & Eleanor</li>
-                <li>Gus & Oona</li>
-                <li>Dan & Anna</li>
-                <li>Richard & Mortimer</li>
-                <li>Sam & Eleanor</li>
-                <li>Gus & Oona</li>
-                <li>Dan & Anna</li>
+                {% for comp in rankings %}
+                <li>{{comp}}</li>
+                {% endfor %}
               </b>
               </ol>
           </div>

@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 
+import models
+
 def index(request):
     return HttpResponse("Hello world. This is the ARRS index view.")
 
@@ -14,7 +16,13 @@ def login(request):
 def dashboard(request):
     template = loader.get_template("dashboard.html")
     #TODO populate this with relevant information; see dashbooard.html TODOs
-    context = {}
+    event_top_six={
+    "VPO": models.getEventTopComps("VPO", 6),
+    "NPO": models.getEventTopComps("NPO", 6)
+    }
+    context = {
+    rankings:event_top_six
+    }
     return HttpResponse(template.render(context, request))
 
 def viewRounds(request):
