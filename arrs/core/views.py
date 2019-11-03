@@ -1,17 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib.auth import authenticate, login
 
 import models
 
 def index(request):
-    return HttpResponse("Hello world. This is the ARRS index view.")
-
-def login(request):
     #TODO figure out if this is correct way to implement a secure login.
-    template = loader.get_template("login.html")
-    context = {}
-    return HttpResponse(template.render(context, request))
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request,username=username, password=password)
+
+    if user is not None:
+        login(request, user)
+        #redirect
+    else:
+        #error?
+    #template = loader.get_template("login.html")
+    #context = {}
+    #return HttpResponse(template.render(context, request))
 
 def dashboard(request):
     template = loader.get_template("dashboard.html")
