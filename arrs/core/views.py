@@ -5,20 +5,13 @@ from django.contrib.auth import authenticate, login
 
 import core.models
 
-def index(request):
-    #TODO figure out if this is correct way to implement a secure login.
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(request,username=username, password=password)
+def auth(request):
+    pass
 
-    if user is not None:
-        login(request, user)
-        #redirect
-    else:
-        #error?
-    #template = loader.get_template("login.html")
-    #context = {}
-    #return HttpResponse(template.render(context, request))
+def index(request):
+    template = loader.get_template("login.html")
+    context = {}
+    return HttpResponse(template.render(context, request))
 
 def dashboard(request):
     template = loader.get_template("dashboard.html")
