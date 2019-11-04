@@ -18,7 +18,7 @@ class Tournament(models.Model):
 class Comp(models.Model):
 
     name = models.CharField(max_length=50, unique=True)
-    varsity = models.BooleanField(default=False)
+    #varsity = models.BooleanField(default=False)
     onteam = models.BooleanField(default=False)
 
     EVENT_CHOICES = [
@@ -39,7 +39,8 @@ class Comp(models.Model):
         return self.event
 
     def getLevel(self):
-        return ("Novice", "Varsity")[self.varsity]
+        #return ("Novice", "Varsity")[self.varsity]
+        pass
 
     def getRounds(self):
         comprounds = {"affrounds": self.affcomp.all(), "negrounds": self.negcomp.all()}
@@ -65,7 +66,7 @@ class Comp(models.Model):
 
     #TOSTRING METHOD
     def __str__(self):
-        return self.getName() + " (" + self.getLevel() + " " + self.getEvent() + ")"
+        return self.getName() + " (" + self.getEvent() + ")"
 
 
 #Model representing a single debate round
@@ -110,7 +111,7 @@ class Round(models.Model):
 
 
 def getEventTopComps(tevent, cutoff):
-    vpol_comps = Comp.objects.filter(event=tevent).filter(varsity=True).filter(onteam=True)
+    vpol_comps = Comp.objects.filter(event=tevent).filter(onteam=True)
     sorted_comps = []
     names = []
     for vc in vpol_comps:

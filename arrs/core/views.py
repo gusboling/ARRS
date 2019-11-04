@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login
 
-import models
+import core.models
 
 def index(request):
     #TODO figure out if this is correct way to implement a secure login.
@@ -24,11 +24,11 @@ def dashboard(request):
     template = loader.get_template("dashboard.html")
     #TODO populate this with relevant information; see dashbooard.html TODOs
     event_top_six={
-    "VPO": models.getEventTopComps("VPO", 6),
-    "NPO": models.getEventTopComps("NPO", 6)
+    "VPO": core.models.getEventTopComps("VPO", 6),
+    "NPO": core.models.getEventTopComps("NPO", 6)
     }
     context = {
-    rankings:event_top_six
+    "vpo_top":event_top_six["VPO"]
     }
     return HttpResponse(template.render(context, request))
 
