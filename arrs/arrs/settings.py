@@ -61,6 +61,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'arrs.urls'
+LOGIN_REDIRECT_URL = '/'
 
 TEMPLATES = [
     {
@@ -82,6 +83,9 @@ TEMPLATES = [
             '/home/html/jinja2',
         ],
     },
+    {
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+    }
 ]
 
 WSGI_APPLICATION = 'arrs.wsgi.application'
