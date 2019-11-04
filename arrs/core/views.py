@@ -17,11 +17,11 @@ def dashboard(request):
     template = loader.get_template("dashboard.html")
     #TODO populate this with relevant information; see dashbooard.html TODOs
     event_top_six={
-    "VPO": core.models.getEventTopComps("VPO", 6),
-    "NPO": core.models.getEventTopComps("NPO", 6)
+        "VPO": core.models.getEventTopComps("VPO", 6),
+        "NPO": core.models.getEventTopComps("NPO", 6)
     }
     context = {
-    "vpo_top":event_top_six["VPO"]
+        "vpo_top":event_top_six["VPO"]
     }
     return HttpResponse(template.render(context, request))
 
