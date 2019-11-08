@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from django.contrib.auth import authenticate, login, login_required
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 import core.models
 
