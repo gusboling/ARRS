@@ -14,9 +14,12 @@ def dashboard(request):
         "VPO": core.models.getEventTopComps("VPO", 6),
         "NPO": core.models.getEventTopComps("NPO", 6)
     }
+
+
     context = {
         "vpo_top":event_top_six["VPO"],
-        "npo_top":event_top_six["NPO"]
+        "npo_top":event_top_six["NPO"],
+        "testArray": [25, 12, 15, 11, 8],
     }
     return HttpResponse(template.render(context, request))
 
