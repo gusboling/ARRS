@@ -126,7 +126,7 @@ def getEventTopComps(tevent, cutoff):
 
 def getCompWinDataSets(tevent, homeTeam=True):
     resultComps = Comp.objects.filter(event=tevent).filter(onteam=homeTeam)
-    compTuples = {"name": [], "wins": []}
+    compTuples = {"names": [], "wins": []}
     for rc in resultComps:
         compTuples["names"].append(rc.getName())
         compTuples["wins"].append(rc.getWinCount())
