@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
@@ -10,11 +12,17 @@ import core.models
 def dashboard(request):
     template = loader.get_template("dashboard.html")
 
+    vpo_pie_data = core.models.getCompWinDataSets(tevent="VPO")
+
     context = {
         "vpo_top": core.models.getEventTopComps("VPO", 6),
         "npo_top": core.models.getEventTopComps("NPO", 6),
-        "vpo_pie_data": core.models.getCompWinDataSets(tevent="VPO")
+        "vpo_pie_names": vpo_pie_data["names"],
+        "vpo_pie_wins": vpo_pie_data["wins"]
     }
+
+    print(vpo_pie_data["names"])
+
     return HttpResponse(template.render(context, request))
 
 @login_required
