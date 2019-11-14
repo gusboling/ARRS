@@ -9,17 +9,11 @@ import core.models
 @login_required
 def dashboard(request):
     template = loader.get_template("dashboard.html")
-    #TODO populate this with relevant information; see dashbooard.html TODOs
-    event_top_six={
-        "VPO": core.models.getEventTopComps("VPO", 6),
-        "NPO": core.models.getEventTopComps("NPO", 6)
-    }
-
 
     context = {
-        "vpo_top":event_top_six["VPO"],
-        "npo_top":event_top_six["NPO"],
-        "testArray": [25, 12, 15, 11, 8],
+        "vpo_top": core.models.getEventTopComps("VPO", 6),
+        "npo_top": core.models.getEventTopComps("NPO", 6),
+        "vpo_pie_data": core.models.getCompWinDataSets(tevent="VPO")
     }
     return HttpResponse(template.render(context, request))
 

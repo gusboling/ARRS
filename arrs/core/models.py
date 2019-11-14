@@ -110,11 +110,12 @@ class Round(models.Model):
         return str(self.tournament) + " " + self.getAff() + " v. " + self.getNeg() + " (" + self.type + ")"
 
 
+#VIEW METHODS
 def getEventTopComps(tevent, cutoff):
-    vpol_comps = Comp.objects.filter(event=tevent).filter(onteam=True)
+    top_comps = Comp.objects.filter(event=tevent).filter(onteam=True)
     sorted_comps = []
     names = []
-    for vc in vpol_comps:
+    for vc in top_comps:
         sorted_comps.append((vc.getName(), vc.getWinCount()))
     sorted_comps = sorted(sorted_comps, key=lambda tup: tup[1])
     sorted_comps.reverse()
@@ -122,3 +123,11 @@ def getEventTopComps(tevent, cutoff):
         names.append(sc[0])
 
     return names[0:cutoff]
+
+def getCompWinDataSets(tevent, homeTeam=True):
+    resultComps = Comp.objects.filter(event=tevent).filter(onteam=homeTeam)
+    compTuples = {"name": [], "wins": []}
+    for rc in resultComps:
+        compTuples["name"].append(rc.getName())
+        compTuples["wins"].append(rc.getWinCount())
+    return compTuples
