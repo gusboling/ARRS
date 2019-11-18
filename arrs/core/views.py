@@ -9,11 +9,11 @@ from django.contrib.auth.decorators import login_required
 import core.models
 
 def get_component(filename):
+    result = ""
     with open(filename, "r") as component:
-        result = ""
         for l in component.readlines():
             result = result + l
-    return l
+    return result.replace("\n", "")
 
 @login_required
 def dashboard(request):
@@ -25,10 +25,9 @@ def dashboard(request):
         "vpo_top": core.models.getEventTopComps("VPO", 6),
         "npo_top": core.models.getEventTopComps("NPO", 6),
         "vpo_pie_names": vpo_pie_data["names"],
-        "vpo_pie_wins": vpo_pie_data["wins"]
+        "vpo_pie_wins": vpo_pie_data["wins"],
+        "navbar": get_component("./templates/component_navbar.html")
     }
-
-    print(vpo_pie_data["names"])
 
     return HttpResponse(template.render(context, request))
 
