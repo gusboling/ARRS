@@ -26,8 +26,14 @@ def dashboard(request):
     return HttpResponse(template.render(context, request))
 
 @login_required
-def viewRounds(request):
+def viewCompetitors(request):
     template = loader.get_template("viewCompetitors.html")
+    context = {"comps":[]}
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def viewRounds(request):
+    template = loader.get_template("viewRounds.html")
     context = {"comps":[]}
     return HttpResponse(template.render(context, request))
 
