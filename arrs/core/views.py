@@ -26,7 +26,6 @@ def dashboard(request):
         "npo_top": core.models.getEventTopComps("NPO", 6),
         "vpo_pie_names": vpo_pie_data["names"],
         "vpo_pie_wins": vpo_pie_data["wins"],
-        "navbar": get_component("./templates/component_navbar.html")
     }
 
     return HttpResponse(template.render(context, request))
