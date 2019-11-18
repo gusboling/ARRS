@@ -8,6 +8,13 @@ from django.contrib.auth.decorators import login_required
 
 import core.models
 
+def get_component(filename):
+    with open(filename, "r") as component:
+        result = ""
+        for l in component.readlines():
+            result = result + l
+    return l
+
 @login_required
 def dashboard(request):
     template = loader.get_template("dashboard.html")
