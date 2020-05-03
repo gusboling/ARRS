@@ -31,11 +31,7 @@ SECRET_KEY = get_env_variable('H_SECRETKEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = [
-        '192.168.1.168',
-        '192.168.1.6'
-]
+ALLOWED_HOSTS = [get_env_variable('H_IP')]
 
 
 # Application definition
