@@ -133,6 +133,20 @@ def getRounds(tevent):
     resultRounds = Round.objects.all()
     return resultRounds
 
+#Awful hacky spaghetti; fix when a better person
+def getViewRounds(tevent):
+    rounds = getRounds(tevent)
+    result = []
+    for r in rounds:
+        roundData = {
+                "event": r.type,
+                "aff": r.getAff(),
+                "neg": r.getNeg(),
+                "result": r.getWinner()
+        }
+        result.append(roundData)
+    return result
+
 def getComps():
     comps = Comp.objects.all()
     result = []
