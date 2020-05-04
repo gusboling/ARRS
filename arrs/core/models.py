@@ -95,12 +95,9 @@ class Round(models.Model):
     #GET METHODS
     def getAff(self):
         return self.aff.all()[0].name
-
     def getNeg(self):
         return self.neg.all()[0].name
-
     def getWinner(self):
-        #return []
         if self.result == "AFF":
             return self.getAff()
         else:
@@ -131,3 +128,26 @@ def getCompWinDataSets(tevent, homeTeam=True):
         compTuples["names"].append(rc.getName())
         compTuples["wins"].append(rc.getWinCount())
     return compTuples
+
+def getRounds(tevent):
+    resultRounds = Round.objects.all()
+    return resultRounds
+
+def getComps():
+    comps = Comp.objects.all()
+    result = []
+    for c in comps:
+        compObj = {
+                "name": c.getName(),
+                "event": c.getEvent(),
+                "winCount": c.getWinCount(),
+                "roundCount": len(c.getRounds())
+        }
+        if c.onteam:
+            compObj["school"] = "Bozeman High School"
+        else:
+            compObj["school"] = "Other"
+
+        result.append(compObj)
+    return result
+

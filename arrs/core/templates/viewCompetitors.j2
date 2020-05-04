@@ -63,9 +63,7 @@
                     <th>Event</th>
                     <th>School</th>
                     <th>Total Wins</th>
-                    <th>Total Losses</th>
-                    <th>Affirmative Wins/Losses</th>
-                    <th>Negative Wins/Losses</th>
+                    <th>Total Rounds</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -74,35 +72,24 @@
                     <th>Event</th>
                     <th>School</th>
                     <th>Total Wins</th>
-                    <th>Total Losses</th>
-                    <th>Affirmative Wins/Losses</th>
-                    <th>Negative Wins/Losses</th>
+                    <th>Total Rounds</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr>
-                    <td>Colon & Nobbs</td>
-                    <td>Varsity Policy</td>
-                    <td>Ankh Morpork</td>
-                    <td>4</td>
-                    <td>11</td>
-                    <td>1 / 6</td>
-                    <td>3 / 5</td>
-                  </tr>
                   {% for c in comps %}
                   <tr>
                     <td>{{c.name}}</td>
                     <td>{{c.event}}</td>
-                    <td>{{c.hawker}}</td>
-                    <td>{{c.affWinCount}}/{{c.affLossCount}}</td>
-                    <td>{{c.negWinCount}}/{{c.negLossCount}}</td>
+                    <td>{{c.school}}</td>
+		    <td>{{c.winCount}}</td>
+		    <td>{{c.roundCount}}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
               </table>
             </div>
           </div>
-          <div class="card-footer small text-muted">Last Updated February 2, 2019 at 11:59 PM</div>
+	  <div class="card-footer small text-muted">Beta v0.0.1</div>
         </div>
       </div>
       <!-- /.container-fluid -->
