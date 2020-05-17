@@ -18,15 +18,13 @@ def load_component(request, componentName, context=None):
 @login_required
 def dashboard(request):
     template = loader.get_template("dashboard.j2")
-    vpo_pie_data = core.models.getCompWinDataSets(tevent="VPO")
+    #vpo_pie_data = core.models.getCompWinDataSets(tevent="VPO")
 
+
+    #TODO: Restore visualizations
     context = {
         "comp_sidebar": load_component(request, "sidebar.j2"),
         "comp_navbar": load_component(request, "navbar.j2"),
-        "vpo_top": core.models.getEventTopComps("VPO", 6),
-        "npo_top": core.models.getEventTopComps("NPO", 6),
-        "vpo_pie_names": vpo_pie_data["names"],
-        "vpo_pie_wins": vpo_pie_data["wins"],
     }
 
     return HttpResponse(template.render(context, request))
@@ -35,9 +33,9 @@ def dashboard(request):
 def viewCompetitors(request):
     template = loader.get_template("viewCompetitors.j2")
     context = {
-            "comp_sidebar": load_component(request, "sidebar.j2"),
-            "comp_navbar": load_component(request, "navbar.j2"),
-            "comps": core.models.getComps()
+        "comp_sidebar": load_component(request, "sidebar.j2"),
+        "comp_navbar": load_component(request, "navbar.j2"),
+        "comps": core.models.getComps()
     }
     return HttpResponse(template.render(context, request))
 
@@ -45,11 +43,29 @@ def viewCompetitors(request):
 def viewRounds(request):
     template = loader.get_template("viewRounds.j2")
     context = {
-            "comp_sidebar": load_component(request, "sidebar.j2"),
-            "comp_navbar": load_component(request, "navbar.j2"),
-            "rounds": core.models.getViewRounds("VPO")
+        "comp_sidebar": load_component(request, "sidebar.j2"),
+        "comp_navbar": load_component(request, "navbar.j2"),
+        "rounds": core.models.getViewRounds("VPO")
     }
-    print(len(context["rounds"]))
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def viewTournaments(request):
+    template = loader.get_template("viewTournaments.j2")
+    
+    tournament_data = []
+    for t in core.models.Tournament.objects.all():
+        tournament_data.append({
+            "name": t.get_name(),
+            "location": t.get_location(),
+            "year": t.get_date().year
+        })
+
+    context = {
+        "comp_sidebar": load_component(request, "sidebar.j2"),
+        "comp_navbar": load_component(request, "navbar.j2"),
+        "tournaments": tournament_data
+    }
     return HttpResponse(template.render(context, request))
 
 @login_required
