@@ -59,19 +59,13 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Team</th>
-                    <th>Event</th>
-                    <th>School</th>
-                    <th>Total Wins</th>
+                    <th>Name</th>
                     <th>Total Rounds</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Team</th>
-                    <th>Event</th>
-                    <th>School</th>
-                    <th>Total Wins</th>
+                    <th>Name</th>
                     <th>Total Rounds</th>
                   </tr>
                 </tfoot>
@@ -79,10 +73,7 @@
                   {% for c in comps %}
                   <tr>
                     <td>{{c.name}}</td>
-                    <td>{{c.event}}</td>
-                    <td>{{c.school}}</td>
-		    <td>{{c.winCount}}</td>
-		    <td>{{c.roundCount}}</td>
+		    <td>{{c.num_rounds}}</td>
                   </tr>
                   {% endfor %}
                 </tbody>

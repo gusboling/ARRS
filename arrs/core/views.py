@@ -1,5 +1,4 @@
 import json
-import os
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -18,8 +17,6 @@ def load_component(request, componentName, context=None):
 @login_required
 def dashboard(request):
     template = loader.get_template("dashboard.j2")
-    #vpo_pie_data = core.models.getCompWinDataSets(tevent="VPO")
-
 
     #TODO: Restore visualizations
     context = {
@@ -32,10 +29,18 @@ def dashboard(request):
 @login_required
 def viewCompetitors(request):
     template = loader.get_template("viewCompetitors.j2")
+
+    comp_data = []
+    for c in core.models.Comp.objects.all():
+        comp_data.append({
+            "name": c.get_name(),
+            "num_rounds": len(c.round_set.all())
+        })
+
     context = {
         "comp_sidebar": load_component(request, "sidebar.j2"),
         "comp_navbar": load_component(request, "navbar.j2"),
-        "comps": core.models.getComps()
+        "comps": comp_data
     }
     return HttpResponse(template.render(context, request))
 
@@ -83,7 +88,6 @@ def viewTournaments(request):
 @login_required
 def addRound(request):
     template = loader.get_template("addRound.j2")
-    #TODO populate this with relevant information; see addRound.html TODOs
     context = {
             "comp_sidebar": load_component(request, "sidebar.j2"),
             "comp_navbar": load_component(request, "navbar.j2")
