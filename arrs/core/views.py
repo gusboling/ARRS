@@ -42,10 +42,22 @@ def viewCompetitors(request):
 @login_required
 def viewRounds(request):
     template = loader.get_template("viewRounds.j2")
+
+    round_data = []
+    for r in core.models.Round.objects.all():
+        data = {
+            "competitor": r.get_debater_name(), 
+            "tournament": r.get_tournament_name(),
+            "opponent": r.get_opponent(),
+            "event": r.get_event()
+        }
+        data["result"] = ("Loss", "Win")[r.get_won()]
+        round_data.append(data)
+
     context = {
         "comp_sidebar": load_component(request, "sidebar.j2"),
         "comp_navbar": load_component(request, "navbar.j2"),
-        "rounds": core.models.getViewRounds("VPO")
+        "rounds": round_data
     }
     return HttpResponse(template.render(context, request))
 

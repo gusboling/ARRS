@@ -86,11 +86,17 @@ class Round(models.Model):
     won = models.BooleanField(default=False)
     position = models.BooleanField(default=False)
 
-    def get_debater(self):
-        return self.debater
+    def get_debater_name(self):
+        return self.debater.get_name()
 
-    def get_tournament(self):
-        return self.tournament
+    def get_tournament_name(self):
+        return self.tournament.get_name()
+    
+    def get_opponent(self):
+        return self.opponent
+    
+    def get_event(self):
+        return self.event
 
     def get_braket(self):
         return self.bracket
