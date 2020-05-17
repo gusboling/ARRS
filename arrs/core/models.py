@@ -1,5 +1,36 @@
 from django.db import models
 
+class Comp(models.Model):
+    """A single team or competitor
+    Members:
+    --------
+    name: str, required, primary key
+        name of the debater/team
+    """
+    name = models.CharField(max_length=100, unique=True, default="Unknown")
+
+    def get_name(self):
+        return self.name
+
+    def __str__(self):
+        return str(self.name)
+
+class Tournament(models.Model):
+    """A single tournament
+    Members:
+    --------
+    name: str, required
+        Name of tournament
+    """
+
+    name = models.CharField(max_length=100, default="Unknown")
+
+    def get_name(self):
+        return self.name
+
+    def __str__(self):
+        return str(self.name)
+
 class Round(models.Model):
     """A single debate round
     Members:
@@ -18,8 +49,8 @@ class Round(models.Model):
         3-character code representing round-event (VPO, VLD, VPF, NPO, NLD)
     """
     #Relational Fields
-    debater = models.CharField() #Make foreign key?
-    tournament = models.CharField() #Make foreign key?
+    debater = models.ForeignKey(Comp, on_delete=models.CASCADE, null=True)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True)
     
     #Local fields
     ROUND_TYPES = [
@@ -27,7 +58,8 @@ class Round(models.Model):
         ("OCT", "Octafinal"),
         ("QRT", "Quarterfinal"),
         ("SEM", "Semifinal"),
-        ("FIN", "Final")
+        ("FIN", "Final"),
+        ("OTH", "Other")
     ]
 
     EVENT_TYPES = [
@@ -35,12 +67,13 @@ class Round(models.Model):
         ("VLD", "Varsity Lincoln-Douglas"),
         ("VPF", "Public Forum"),
         ("NPO", "Novice Policy"),
-        ("NLD", "Novice Lincoln-Douglas")
+        ("NLD", "Novice Lincoln-Douglas"),
+        ("OTH", "Other")
     ]
 
-    opponent = models.CharField(max_length=100)
-    bracket = models.CharField(max_length=3, choices=ROUND_TYPES)
-    event = models.CharField(max_length=3, choices=EVENT_TYPES)
+    opponent = models.CharField(max_length=100, default="Unknown")
+    bracket = models.CharField(max_length=3, choices=ROUND_TYPES, default="OTH")
+    event = models.CharField(max_length=3, choices=EVENT_TYPES, default="OTH")
     won = models.BooleanField(default=False)
     position = models.BooleanField(default=False)
 
@@ -61,39 +94,3 @@ class Round(models.Model):
 
     def __str__(self):
         return str(self.debater) + "v." + str(self.opponent)
-
-class Comp(models.Model):
-    """A single team or competitor
-    Members:
-    --------
-    name: str, required, primary key
-        name of the debater/team
-    """
-    name = models.CharField(max_length=100, unique=True)
-
-    def get_name(self):
-        return self.name
-
-    def __str__(self):
-        return str(self.name)
-
-class Tournament(models.Model):
-    """A single tournament
-    Members:
-    --------
-    location: str, required
-        Place where tournament took place (e.g. Bozeman, Helena, etc.)
-    year: str, required
-        Year of the tournament (2020, etc.)
-    """
-    location = models.CharField(max_length=100)
-    year = models.CharField(max_length=4)
-    
-    def get_location(self):
-        return self.location
-
-    def get_year(self):
-        return self.year
-
-    def __str__(self):
-        return str(self.location) + " " + str(self.year)
