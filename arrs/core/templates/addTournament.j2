@@ -49,8 +49,11 @@
         <!-- Page Content -->
         <h1>Add New Tournament</h1>
         <hr>
-          <form>
-          </form>
+	<form action="{% url 'addTournament' %}" method="post">
+	    {% csrf_token %}
+            {{form}}
+	    <input type="submit" value="Save Tournament">
+        </form>
         <hr>
 
       <!-- /.container-fluid -->

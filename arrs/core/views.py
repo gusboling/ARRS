@@ -1,12 +1,13 @@
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 import core.models
+import core.forms
 
 def load_component(request, componentName, context=None):
     if context is None:
@@ -84,6 +85,55 @@ def viewTournaments(request):
         "tournaments": tournament_data
     }
     return HttpResponse(template.render(context, request))
+
+@login_required
+def addComp(request):
+    if request.method == "POST":
+        form = core.forms.CompForm(request.POST)
+        if form.is_valid():
+            try:
+                new_c_model = core.models.Comp(name=form.cleaned_data['name'])
+                new_c_model.save()
+                message = "Successfully added Competitor: {}".format(form.cleaned_data['name'])
+            except Exception as e:
+                message = "Error adding Competitor to database"
+
+        return redirect('/core/viewComp')
+    else:
+        template = loader.get_template("addComp.j2")
+        context = {
+            "comp_sidebar": load_component(request, "sidebar.j2"),
+            "comp_navbar": load_component(request, "navbar.j2"),
+            "form": core.forms.CompForm()
+        }
+        return HttpResponse(template.render(context, request))
+
+@login_required
+def addTournament(request):
+    if request.method == "POST":
+        form = core.forms.TournamentForm(request.POST)
+        if form.is_valid():
+            try:
+                new_t_model = core.models.Tournament(
+                    name=form.cleaned_data['name'],
+                    location=form.cleaned_data['location'],
+                    date=form.cleaned_data['date']
+                )
+                new_t_model.save()
+            except Exception as e:
+                print("Error saving tournament to database", e)
+        else:
+            print("Invalid form data")
+    
+        return redirect('/core/viewTournaments')
+    else:
+        template = loader.get_template("addTournament.j2")
+        context = {
+            "comp_sidebar": load_component(request, "sidebar.j2"),
+            "comp_navbar": load_component(request, "navbar.j2"),
+            "form": core.forms.TournamentForm()
+        }
+        return HttpResponse(template.render(context, request))
 
 @login_required
 def addRound(request):

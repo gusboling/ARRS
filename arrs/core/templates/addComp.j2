@@ -48,13 +48,14 @@
 
         <!-- Page Content -->
         <h1>Add New Competitor</h1>
+	<h4>{{message}}</h4>
         <hr>
-	  <form action="{% url 'addComp' %}" method="post"> 
+	  <form action="addComp" method="post">
             {% csrf_token %}
-	    <label for="comp_name">Competitor or Team Name: </label>
-	    <input id="comp_name" type="text" name="comp_name" maxLength="100" required>
-	    <input type="submit" value="Add Competitor">
-          </form>
+	    {{ form }}
+	    <br>
+	    <input type="submit" value="Submit Competitor">
+	  </form>
         <hr>
 
       <!-- /.container-fluid -->
