@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Comp(models.Model):
     """A single team or competitor
@@ -24,9 +25,17 @@ class Tournament(models.Model):
     """
 
     name = models.CharField(max_length=100, default="Unknown")
+    location = models.CharField(max_length=100, default="Unknown")
+    date = models.DateField(default=date.today)
 
     def get_name(self):
         return self.name
+
+    def get_location(self):
+        return self.location
+
+    def get_date(self):
+        return self.date
 
     def __str__(self):
         return str(self.name)
