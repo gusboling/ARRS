@@ -137,9 +137,30 @@ def addTournament(request):
 
 @login_required
 def addRound(request):
-    template = loader.get_template("addRound.j2")
-    context = {
+    if request.method == "POST":
+        form = core.forms.RoundForm(request.POST)
+        if form.is_valid():
+            try:
+                new_r_model = core.models.Round(
+                    debater=form.cleaned_data["debater"],
+                    tournament=form.cleaned_data["tournament"],
+                    opponent=form.cleaned_data["opponent"],
+                    bracket=form.cleaned_data["bracket"],
+                    event=form.cleaned_data["event"],
+                    won=form.cleaned_data["won"],
+                    position=form.cleaned_data["position"]
+                )
+                new_r_model.save()
+            except Exception as e:
+                print("Error saving round to database", e)
+        else:
+            print("Invalid form data")
+        return redirect('/core/viewRounds')
+    else:
+        template = loader.get_template("addRound.j2")
+        context = {
             "comp_sidebar": load_component(request, "sidebar.j2"),
-            "comp_navbar": load_component(request, "navbar.j2")
-    }
-    return HttpResponse(template.render(context, request))
+            "comp_navbar": load_component(request, "navbar.j2"),
+            "form": core.forms.RoundForm()
+        }
+        return HttpResponse(template.render(context, request))
