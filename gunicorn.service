@@ -1,0 +1,28 @@
+[Unit]
+
+Description=gunicorn daemon
+
+After=network.target
+
+
+[Service]
+#Django environment variables (FILL THEM OUT WHEN DEPLOYED)
+Environment=H_IP=""
+Environment=H_SECRETKEY=""
+Environment=H_DBUSER=""
+Environment=H_DBPASSWORD=""
+
+
+User=root
+
+Group=www-data
+
+WorkingDirectory=/home/admin/arrs/arrs
+
+ExecStart=/home/admin/arrs/arrs_env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/admin/arrs/arrs.sock arrs.wsgi
+
+
+[Install]
+
+WantedBy=multi-user.target
+
