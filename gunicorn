@@ -1,0 +1,27 @@
+server {
+
+    listen 80;
+
+    server_name 34.217.71.72;
+
+
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+
+        root /home/admin/arrs_static;
+
+    }
+
+
+
+    location / {
+
+        include proxy_params;
+
+        proxy_pass http://unix:/home/admin/arrs/arrs.sock;
+
+    }
+
+}
