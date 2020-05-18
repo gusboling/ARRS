@@ -42,8 +42,17 @@
             Add Rounds
           </li>
         </ol>
-
-        <!-- Page Content -->
+	
+	<h1>Add New Round</h1>
+	<hr>
+	<form action="{% url 'addRound' %}" method="post">
+          {% csrf_token %}
+	  {{ form }}
+	  <input type="submit" value="Save Round">
+	</form>
+	<hr>
+	
+        <!-- Old form look
         <h1>Add New Round(s)</h1>
         <hr>
           <form>
@@ -137,7 +146,7 @@
             <br>
             <br>
             <button type="submit" class="btn btn-success">Log Round</button>
-          </form>
+	  </form> -->
         <hr>
 
       <!-- /.container-fluid -->

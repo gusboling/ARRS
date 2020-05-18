@@ -40,12 +40,11 @@
             <a href="#">Dashboard</a>
           </li>
           <li class="breadcrumb-item">
-            <a href="#">Policy</a>
+            <a href="#">Competitors</a>
           </li>
           <li class="breadcrumb-item">
-            <a href="#">Varsity</a>
+            <a href="#">View Competitors</a>
           </li>
-          <li class="breadcrumb-item active">2016-2017 Season</li>
         </ol>
 
         <!-- DataTables Example -->
@@ -59,21 +58,24 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Total Rounds</th>
+		    <th>Name</th>
+                    <th>Location</th>
+                    <th>Year</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Name</th>
-                    <th>Total Rounds</th>
+	    	    <th>Name</th>
+		    <th>Location</th>
+		    <th>Year</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  {% for c in comps %}
+                  {% for t in tournaments %}
                   <tr>
-                    <td>{{c.name}}</td>
-		    <td>{{c.num_rounds}}</td>
+                    <td>{{t.name}}</td>
+                    <td>{{t.location}}</td>
+                    <td>{{t.year}}</td>
                   </tr>
                   {% endfor %}
                 </tbody>

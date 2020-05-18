@@ -57,17 +57,19 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-	            <th>Event</th>
-		    <th>AFF</th>
-		    <th>NEG</th>
+	 	    <th>Event</th>
+	            <th>Competitor</th>
+		    <th>Opponent</th>
+		    <th>Tournament</th>
 		    <th>Result</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
 	            <th>Event</th>
-                    <th>AFF</th>
-                    <th>NEG</th>
+	            <th>Competitor</th>
+                    <th>Opponent</th>
+                    <th>Tournament</th>
                     <th>Result</th>
                   </tr>
                 </tfoot>
@@ -75,8 +77,9 @@
 		{% for r in rounds %}
 		  <tr>
 		    <td>{{r.event}}</td>
-		    <td>{{r.aff}}</td>
-		    <td>{{r.neg}}</td>
+		    <td>{{r.competitor}}</td>
+		    <td>{{r.opponent}}</td>
+		    <td>{{r.tournament}}</td>
 		    <td>{{r.result}}</td>
 		  </tr>
 		{% endfor %}
